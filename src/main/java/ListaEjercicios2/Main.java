@@ -4,13 +4,17 @@
 
 package ListaEjercicios2;
 
+import Controladores.Controller;
+import Controladores.ControladorBase;
+
+    
 /**
  *
- * @author RedStar
+ * @author milag
  */
-public class ListaEjercicios2 {
-
+public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Controller c=new ControladorBase();
+        c.run();
     }
 }
