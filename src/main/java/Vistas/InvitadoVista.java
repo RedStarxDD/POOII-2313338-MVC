@@ -8,6 +8,10 @@ import Controladores.InvitadoControlador;
 import ListaEjercicios2.Invitado;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.List;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -36,7 +40,7 @@ public class InvitadoVista extends JPanel{
     public InvitadoVista(InvitadoControlador controlador) {
         this.controlador = controlador;
         
-        JPanel panelRegistro = new JPanel(new GridLayout(5, 2));
+        /*JPanel panelRegistro = new JPanel(new GridLayout(5, 2));
         txtNombre= new JTextField();
         txtCelular = new JTextField();
         btnGeneroM = new JRadioButton();
@@ -47,9 +51,22 @@ public class InvitadoVista extends JPanel{
         txtDireccion = new JTextField();
         chkFrecuencia = new JCheckBox("Aceptar términos y condiciones");
         btnGuardar = new JButton("Registar");
-        btnLimpiar = new JButton("Resetear");
+        btnLimpiar = new JButton("Resetear");*/
         
-        panelRegistro.add(new JLabel("Ingrese nombre:"));
+        setLayout(null);
+        crearText(txtNombre, "Ingrese nombre:", 25, 25);
+        crearText(txtCelular, "Ingrese número celular", 25, 75);
+        
+        ArrayList<JRadioButton> botones=new ArrayList<>();
+        botones.add(btnGeneroM);
+        botones.add(btnGeneroF);
+        ArrayList<String> nombresBotones=new ArrayList<>();
+        nombresBotones.add("Masculino");
+        nombresBotones.add("Femenino");
+        
+        crearBtnGroup(botones, nombresBotones, 25, 125);
+        
+        /*panelRegistro.add(new JLabel("Ingrese nombre:"));
         panelRegistro.add(txtNombre);
         panelRegistro.add(new JLabel("Ingrese número celular:"));
         panelRegistro.add(txtCelular);
@@ -68,9 +85,6 @@ public class InvitadoVista extends JPanel{
         panelRegistro.add(btnGuardar);
         panelRegistro.add(btnLimpiar);
         add(panelRegistro);
-       
-        
- 
         
         btnGuardar.addActionListener((e) -> {
             Invitado invitado=new Invitado();
@@ -86,7 +100,36 @@ public class InvitadoVista extends JPanel{
             
             controlador.añadirInvitado(invitado);
             limpiarCampos();
-        });     
+        });     */
+    }
+    
+    private void crearLabel(String text, int x, int y)
+    {
+        JLabel lbl = new JLabel(text);
+        lbl.setFont(new Font("Tahoma", Font.BOLD, 11));
+        lbl.setBounds(x, y, 200, 20);
+        add(lbl);
+    }
+    
+    private void crearText(JTextField txtField, String text, int x, int y){
+        crearLabel(text, x, y);
+        txtField = new JTextField();
+        txtField.setBounds(x+200, y, 200, 20);
+        add(txtField);
+        txtField.setColumns(10);        
+    }
+    
+    private void crearBtnGroup(ArrayList<JRadioButton> lista, ArrayList<String> nombres, int x, int y)
+    {
+        final ButtonGroup btnGroup = new ButtonGroup();
+        crearLabel("Género:", x, 125);
+        
+        for (int i = 0; i < lista.size(); i++) {
+            JRadioButton btn = new JRadioButton(nombres.get(i));
+            btnGroup.add(btn);
+            btn.setBounds((200+x)+i*100, y, 100, 20);
+            add(btn);
+        }
     }
     
     private void limpiarCampos() {
