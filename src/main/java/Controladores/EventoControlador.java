@@ -36,7 +36,7 @@ public class EventoControlador extends Controller{
 
         try {
             EventoModelo modelo=new EventoModelo();
-            modelo.guardar(evento);
+            modelo.guardarEvento(evento);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR", e.getMessage(), JOptionPane.ERROR_MESSAGE);
         }

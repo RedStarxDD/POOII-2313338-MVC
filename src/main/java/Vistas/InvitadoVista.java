@@ -7,11 +7,9 @@ package Vistas;
 import Controladores.InvitadoControlador;
 import ListaEjercicios2.Invitado;
 import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.List;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -26,13 +24,10 @@ import javax.swing.JTextField;
  */
 public class InvitadoVista extends JPanel{
     private JTextField txtNombre, txtCelular;
-    private JRadioButton btnGeneroM;
-    private JRadioButton btnGeneroF;
-    private JComboBox<String> cbDia;
-    private JComboBox<String> cbMes;
-    private JComboBox<String> cbAño;
+    private JRadioButton btnGeneroM, btnGeneroF;
+    private JComboBox<String> cbDia, cbMes,cbAño;
     private JTextField txtDireccion;
-    private JCheckBox chkFrecuencia;
+    private JCheckBox chkTerminos;
     private JButton btnGuardar, btnLimpiar;  
     
     private final InvitadoControlador controlador;
@@ -40,18 +35,17 @@ public class InvitadoVista extends JPanel{
     public InvitadoVista(InvitadoControlador controlador) {
         this.controlador = controlador;
         
-        /*JPanel panelRegistro = new JPanel(new GridLayout(5, 2));
         txtNombre= new JTextField();
         txtCelular = new JTextField();
         btnGeneroM = new JRadioButton();
         btnGeneroF = new JRadioButton();
-        cbDia = new JComboBox<>(new String[] {"1", "2", "3", "4","5","6","7","8", "9", "10", "11","12","13","14","15"});
-        cbMes = new JComboBox<>(new String[]{"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio", "Agosto","Septiembre","Octubre","Noviembre","Diciembre"});
-        cbAño = new JComboBox<>(new String[]{"2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010"});
+        cbDia = new JComboBox();
+        cbMes = new JComboBox();
+        cbAño = new JComboBox();
         txtDireccion = new JTextField();
-        chkFrecuencia = new JCheckBox("Aceptar términos y condiciones");
-        btnGuardar = new JButton("Registar");
-        btnLimpiar = new JButton("Resetear");*/
+        chkTerminos = new JCheckBox();
+        btnGuardar = new JButton();
+        btnLimpiar = new JButton();
         
         setLayout(null);
         crearText(txtNombre, "Ingrese nombre:", 25, 25);
@@ -63,29 +57,35 @@ public class InvitadoVista extends JPanel{
         ArrayList<String> nombresBotones=new ArrayList<>();
         nombresBotones.add("Masculino");
         nombresBotones.add("Femenino");
-        
         crearBtnGroup(botones, nombresBotones, 25, 125);
         
-        /*panelRegistro.add(new JLabel("Ingrese nombre:"));
-        panelRegistro.add(txtNombre);
-        panelRegistro.add(new JLabel("Ingrese número celular:"));
-        panelRegistro.add(txtCelular);
-        panelRegistro.add(new JLabel("Género:"));
-        panelRegistro.add(btnGeneroM);
-        panelRegistro.add(new JLabel("Masculino"));
-        panelRegistro.add(btnGeneroF);
-        panelRegistro.add(new JLabel("Femenino"));
-        panelRegistro.add(new JLabel("Fecha de nacimiento:"));
-        panelRegistro.add(cbDia);
-        panelRegistro.add(cbMes);
-        panelRegistro.add(cbAño);
-        panelRegistro.add(new JLabel("Dirección:"));
-        panelRegistro.add(txtDireccion);
-        panelRegistro.add(chkFrecuencia);
-        panelRegistro.add(btnGuardar);
-        panelRegistro.add(btnLimpiar);
-        add(panelRegistro);
+        crearLabel("Fecha de nacimiento", 25,175);
+        String[] dias=new String[31];
+        for (int i = 1; i <= 31; i++) {
+            dias[i-1]=String.valueOf(i);
+        }
+        crearCmbBox(cbDia, dias, 225, 175);
         
+        String[] meses=new String[]{"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio", "Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+        crearCmbBox(cbMes, meses, 325, 175);
+        
+        String[] anos=new String[23];
+        for (int i = 1; i <= 23; i++) {
+            anos[i-1]=String.valueOf(1999+i);
+        }
+        crearCmbBox(cbAño, anos, 425, 175);
+        
+        crearText(txtDireccion, "Dirección:", 25, 225);
+        
+        createChkBox(chkTerminos, "Acepto términos y condiciones", 25, 275);
+        
+        btnGuardar = new JButton("Registar");
+        btnGuardar.setBounds(200, 325, 100, 25);
+        add(btnGuardar);
+        btnLimpiar = new JButton("Resetear");
+        btnLimpiar.setBounds(400, 325, 100, 25);
+        add(btnLimpiar);
+
         btnGuardar.addActionListener((e) -> {
             Invitado invitado=new Invitado();
             invitado.setNombre(txtNombre.getText());
@@ -100,7 +100,7 @@ public class InvitadoVista extends JPanel{
             
             controlador.añadirInvitado(invitado);
             limpiarCampos();
-        });     */
+        });
     }
     
     private void crearLabel(String text, int x, int y)
@@ -113,7 +113,6 @@ public class InvitadoVista extends JPanel{
     
     private void crearText(JTextField txtField, String text, int x, int y){
         crearLabel(text, x, y);
-        txtField = new JTextField();
         txtField.setBounds(x+200, y, 200, 20);
         add(txtField);
         txtField.setColumns(10);        
@@ -122,7 +121,7 @@ public class InvitadoVista extends JPanel{
     private void crearBtnGroup(ArrayList<JRadioButton> lista, ArrayList<String> nombres, int x, int y)
     {
         final ButtonGroup btnGroup = new ButtonGroup();
-        crearLabel("Género:", x, 125);
+        crearLabel("Género:", x, y);
         
         for (int i = 0; i < lista.size(); i++) {
             JRadioButton btn = new JRadioButton(nombres.get(i));
@@ -132,13 +131,25 @@ public class InvitadoVista extends JPanel{
         }
     }
     
+    private void crearCmbBox(JComboBox cmbBox, String[] items, int x, int y){
+        cmbBox.setModel(new DefaultComboBoxModel(items));
+        cmbBox.setBounds(x, y, 100, 20);
+        add(cmbBox);
+    }
+    
+    private void createChkBox(JCheckBox chkBox, String nombre, int x, int y){
+        chkBox.setText(nombre);
+        chkBox.setBounds(x, y, 200, 25);
+        add(chkBox);
+    }
+    
     private void limpiarCampos() {
         txtNombre.setText("");
         txtCelular.setText("");
         txtDireccion.setText("");
         btnGeneroM.setSelected(false);
         btnGeneroF.setSelected(false);
-        chkFrecuencia.setSelected(false);
+        chkTerminos.setSelected(false);
     }
     
 }

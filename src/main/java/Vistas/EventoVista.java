@@ -56,6 +56,10 @@ public class EventoVista extends JPanel{
             controlador.añadirEvento(evento);
             limpiarCampos();
         });
+        
+        btnLimpiar.addActionListener((e) -> {
+            limpiarCampos();
+        });
     }
   
    // Método para limpiar los campos de entrada
